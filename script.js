@@ -38,45 +38,57 @@ class graph {
     );
   }
 
-  dfs(v, visited) {
-    let visitedObj = {};
-    console.log(this.adjList[v]);
-    visitedObj[v] = true;
-    for (let neighbor of this.adjList[v]) {
-      // if (visited[neighbor]) this.dfs(neighbor, visitedObj);
+  dfs(v, visited = {}) {
+    if (!this.adjList[v]) return;
+    visited[v] = true;
+    console.log(v);
 
-      console.log(visited[neighbor]);
+    for (let neighbor of this.adjList[v]) {
+      if (!visited[neighbor]) this.dfs(neighbor, visited);
     }
   }
 
   bfs(v) {
+    if (!this.adjList[v]) return;
     let q = [];
-    let visited = [];
-    visited.push(v);
+
+    let visited = {};
+
+    visited[v] = true;
     q.push(v);
 
-    while (q.length > 0) {}
+    while (q.length > 0) {
+      let current = q.shift();
+      console.log(current);
+
+      for (const neighbor of this.adjList[current]) {
+        if (!visited[neighbor]) {
+          visited[neighbor] = true;
+          q.push(neighbor);
+        }
+      }
+    }
   }
 }
 
-const graf = new graph();
+const myGraph = new graph();
 
-graf.addVertex("A");
-graf.addVertex("B");
-graf.addVertex("C");
-graf.addVertex("D");
+myGraph.addVertex("A");
+myGraph.addVertex("B");
+myGraph.addVertex("C");
+myGraph.addVertex("D");
 
-graf.addEdge("A", "B");
-graf.addEdge("A", "C");
-graf.addEdge("A", "D");
+myGraph.addEdge("A", "B");
+myGraph.addEdge("A", "C");
+myGraph.addEdge("A", "D");
 
-// graf.addEdge("A", "A");
-// graf.removeEdge("A", "B");
-// console.log("nigga", graf.checkEdge("A", "C"));
+// myGraph.addEdge("A", "A");
 
-graf.dfs("A");
+// myGraph.dfs("A");
 
-// graf.printGraph("A");
+myGraph.bfs("A");
+
+// myGraph.printGraph("A");
 // console.log("====================================");
-// console.log(graf);
+// console.log(myGraph);
 // console.log("====================================");
